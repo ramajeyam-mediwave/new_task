@@ -1,4 +1,4 @@
-require('dotenv').config();
+require("dotenv").config();
 const twilio = require("twilio");
 const OTPs = require("../models/otp");
 const UserDetail = require("../models/UserDetail");
@@ -23,7 +23,7 @@ exports.signup = async (req, res) => {
     await client.messages.create({
       body: `Your OTP is: ${otp}`,
       from: "+13517775218", // Twilio phone number
-      to: mobileNumber,      // Mobile number provided in the request body
+      to: mobileNumber, // Mobile number provided in the request body
     });
 
     // You can optionally store the OTP in a database or session for verification
@@ -143,4 +143,3 @@ exports.deleteUserDetailByMobileNumber = async (req, res) => {
     return res.status(500).json({ error: "Internal server error" });
   }
 };
-helo
