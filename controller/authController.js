@@ -25,7 +25,7 @@ exports.signup = async (req, res) => {
       to: mobileNumber,      // Mobile number provided in the request body
     });
 
-    // You can optionally store the OTP in a database or session for verification
+    // You can optionally store the OTP in a database or session for 
 
     await OTPs.create({
       mobileNumber,
