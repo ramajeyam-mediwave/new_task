@@ -5,6 +5,11 @@ const sequelize = new Sequelize("hp", "postgres", "postgres", {
   host: "localhost",
 });
 const OTPs = sequelize.define("OTPs", {
+  id: {
+    type: Sequelize.UUID,
+    defaultValue: Sequelize.UUIDV4,
+    primaryKey: true
+  },
   mobileNumber: {
     type: DataTypes.STRING,
     allowNull: false,

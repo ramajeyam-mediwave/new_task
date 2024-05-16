@@ -1,16 +1,20 @@
-// models/UserDetail.js
-
 const { Sequelize, DataTypes } = require("sequelize");
 const sequelize = new Sequelize("hp", "postgres", "postgres", {
   dialect: "postgres",
   host: "localhost",
 });
-const UserDetail = sequelize.define("UserDetail", {
+const { v4: uuidv4 } = require('uuid');
+
+const UserDetails = sequelize.define("UserDetails", {
+  id: {
+    type: Sequelize.UUID,
+    defaultValue: Sequelize.UUIDV4,
+    primaryKey: true
+  },
   mobileNumber: {
     type: DataTypes.STRING,
     allowNull: false,
     unique: true,
-    primaryKey: true,
   },
   name: {
     type: DataTypes.STRING,
@@ -23,6 +27,4 @@ const UserDetail = sequelize.define("UserDetail", {
   },
 });
 
-module.exports = UserDetail;
-// models/UserDetail.js
-
+module.exports = UserDetails;

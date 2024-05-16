@@ -1,9 +1,10 @@
 const twilio = require("twilio");
 const OTPs = require("../models/otp");
 const UserDetail = require("../models/UserDetail");
+const UserDetails = require("../models/UserDetail");
 
 const accountSid = "ACf89ac8f3bc208236802d2911212cf284";
-const authToken = "204298fbd876fe64189c9771db9d65a5";
+const authToken = "ba5274bac8b959350aff12e4303973ca";
 const client = twilio(accountSid, authToken);
 
 exports.signup = async (req, res) => {
@@ -74,14 +75,22 @@ exports.login = async (req, res) => {
 };
 
 exports.createUserDetail = async (req, res) => {
+  const { name, email ,mobileNumber } = req.body;
+
+  // Validate that username and email are provided
+  if (!name || !email) {
+    return res.status(400).json({ error: "Username and email are required" });
+  }
+
   try {
-    const userDetail = await UserDetail.create(req.body);
+    const userDetail = await UserDetails.create({ name, email ,mobileNumber});
     return res.status(201).json(userDetail);
   } catch (error) {
     console.error(error);
     return res.status(500).json({ error: "Internal server error" });
   }
 };
+
 
 exports.getAllUserDetails = async (req, res) => {
   try {
