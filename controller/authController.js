@@ -2,8 +2,8 @@ const twilio = require("twilio");
 const OTPs = require("../models/otp");
 const UserDetail = require("../models/UserDetail");
 
-const accountSid = process.env.TWILIO_ACCOUNT_SID;
-const authToken = process.env.TWILIO_AUTH_TOKEN;
+const accountSid = "ACf89ac8f3bc208236802d2911212cf284";
+const authToken = "204298fbd876fe64189c9771db9d65a5";
 const client = twilio(accountSid, authToken);
 
 exports.signup = async (req, res) => {
