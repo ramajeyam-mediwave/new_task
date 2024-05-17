@@ -1,6 +1,8 @@
 require("dotenv").config();
+
+const { Sequelize } = require("sequelize");
 const twilio = require("twilio");
-const OTPs = require("../models/otp");
+const otpTable = require("../models/otp");
 const UserDetail = require("../models/UserDetail");
 const UserDetails = require("../models/UserDetail");
 
@@ -29,7 +31,7 @@ exports.signup = async (req, res) => {
 
     // You can optionally store the OTP in a database or session for verification
 
-    await OTPs.create({
+    await otpTable.create({
       mobileNumber,
       otp,
     });
@@ -53,7 +55,7 @@ exports.login = async (req, res) => {
 
   try {
     // Find the OTP entry in the database
-    const otpEntry = await OTPs.findOne({ where: { mobileNumber, otp } });
+    const otpEntry = await otpTable.findOne({ where: { mobileNumber, otp } });
 
     // Check if OTP entry exists and is not expired
     if (
@@ -84,6 +86,21 @@ exports.createUserDetail = async (req, res) => {
   }
 
   try {
+
+    const existingUser = await UserDetails.findOne({
+      where: {
+        [Sequelize.Op.or]: [
+          { email },
+          { mobileNumber }
+        ]
+      }
+    });
+
+    if (existingUser) {
+      return res.status(409).json({ error: "User with this email or mobile number already exists" });
+    }
+
+
     const userDetail = await UserDetails.create({ name, email ,mobileNumber});
     return res.status(201).json(userDetail);
   } catch (error) {

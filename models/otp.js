@@ -4,7 +4,7 @@ const sequelize = new Sequelize("hp", "postgres", "postgres", {
   dialect: "postgres",
   host: "localhost",
 });
-const OTPs = sequelize.define("OTPs", {
+const otpTable = sequelize.define("otpTable", {
   id: {
     type: Sequelize.UUID,
     defaultValue: Sequelize.UUIDV4,
@@ -17,7 +17,16 @@ const OTPs = sequelize.define("OTPs", {
   otp: {
     type: DataTypes.STRING,
     allowNull: false,
+  }
   },
+  {
+    tableName: 'otpTable',
+    indexes: [
+      {
+        fields: ['id'],
+      },
+    ],
+  
 });
 
-module.exports = OTPs;
+module.exports = otpTable;
