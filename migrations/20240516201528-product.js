@@ -4,16 +4,22 @@ module.exports = {
   up: async (queryInterface, Sequelize) => {
     await queryInterface.createTable('Products', {
       id: {
-        type: Sequelize.STRING,
-        primaryKey: true,
-        allowNull: false,
+          allowNull: false,
+          primaryKey: true,
+          type: Sequelize.UUID,
+          defaultValue: Sequelize.UUIDV4,
       },
       product_name: {
         type: Sequelize.STRING,
         allowNull: false,
+        unique: true,
       },
       image_path: {
         type: Sequelize.STRING,
+        allowNull: true,
+      },
+      clothes_type: {
+        type: Sequelize.ARRAY(Sequelize.STRING),
         allowNull: true,
       },
       price: {
