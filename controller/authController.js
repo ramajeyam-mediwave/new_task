@@ -1,5 +1,4 @@
 require("dotenv").config();
-
 const { Sequelize } = require("sequelize");
 const twilio = require("twilio");
 const otpTable = require("../models/otp");
@@ -44,13 +43,18 @@ exports.signup = async (req, res) => {
 };
 
 exports.login = async (req, res) => {
-  const { mobileNumber, otp } = req.body;
+  const { mobileNumber } = req.query;
+  const { otp } = req.body;
+
+  
+
+  // Log the received mobile number and OTP
+  console.log("Received mobileNumber:", mobileNumber);
+  console.log("Received OTP:", otp);
 
   // Check if mobileNumber and otp are provided
   if (!mobileNumber || !otp) {
-    return res
-      .status(400)
-      .json({ error: "Mobile number and OTP are required" });
+    return res.status(400).json({ error: "Mobile number and OTP are required" });
   }
 
   try {
@@ -58,12 +62,10 @@ exports.login = async (req, res) => {
     const otpEntry = await otpTable.findOne({ where: { mobileNumber, otp } });
 
     // Check if OTP entry exists and is not expired
-    if (
-      otpEntry &&
-      otpEntry.createdAt.getTime() + 5 * 60 * 1000 >= Date.now()
-    ) {
+    if (otpEntry && otpEntry.createdAt.getTime() + 5 * 60 * 1000 >= Date.now()) {
       // OTP is verified
-      // Return success response along with the mobile number
+
+      // Return success response along with the token
       return res.status(200).json({
         message: "OTP verified successfully",
         mobileNumber: mobileNumber,
@@ -72,10 +74,13 @@ exports.login = async (req, res) => {
       return res.status(401).json({ error: "Invalid OTP or OTP expired" });
     }
   } catch (error) {
-    console.error(error);
+    console.error("Error during login:", error);
     res.status(500).json({ error: "Internal server error" });
   }
 };
+
+
+
 
 exports.createUserDetail = async (req, res) => {
   const { name, email ,mobileNumber } = req.body;
@@ -100,14 +105,21 @@ exports.createUserDetail = async (req, res) => {
       return res.status(409).json({ error: "User with this email or mobile number already exists" });
     }
 
+    function generateCustomerId() {
+      const randomNum = Math.floor(100000 + Math.random() * 900000); 
+      return `hp${randomNum}`;
+    }
 
-    const userDetail = await UserDetails.create({ name, email ,mobileNumber});
+    const customerId = generateCustomerId();
+    const userDetail = await UserDetails.create({ name, email ,mobileNumber,customerId});
+
     return res.status(201).json(userDetail);
   } catch (error) {
     console.error(error);
     return res.status(500).json({ error: "Internal server error" });
   }
 };
+
 
 
 exports.getAllUserDetails = async (req, res) => {

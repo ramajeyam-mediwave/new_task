@@ -9,6 +9,11 @@ module.exports = {
         type: Sequelize.UUID,
         defaultValue: Sequelize.UUIDV4,
       },
+      customerId: {
+        type: Sequelize.STRING,
+        allowNull: false,
+        unique: true,
+      },
       mobileNumber: {
         type: Sequelize.STRING,
         allowNull: false,
@@ -40,6 +45,10 @@ module.exports = {
         allowNull: true,
       },
       country: {
+        type: Sequelize.STRING,
+        allowNull: true,
+      },
+      active_detail: {
         type: Sequelize.STRING,
         allowNull: true,
       },

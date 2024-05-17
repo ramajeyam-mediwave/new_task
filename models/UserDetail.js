@@ -11,6 +11,11 @@ const UserDetails = sequelize.define("UserDetails", {
     defaultValue: Sequelize.UUIDV4,
     primaryKey: true
   },
+  customerId: {
+    type: DataTypes.STRING,
+    allowNull: false,
+    unique: true,
+  },
   mobileNumber: {
     type: DataTypes.STRING,
     allowNull: false,
@@ -42,6 +47,10 @@ const UserDetails = sequelize.define("UserDetails", {
     allowNull: true,
   },
   country: {
+    type: DataTypes.STRING,
+    allowNull: true,
+  },
+  active_detail: {
     type: DataTypes.STRING,
     allowNull: true,
   },
