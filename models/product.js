@@ -7,16 +7,21 @@ const sequelize = new Sequelize("hp", "postgres", "postgres", {
 // Define the Product model
 const Product = sequelize.define('Product', {
   id: {
-    type: DataTypes.STRING,
-    primaryKey: true,
-    allowNull: false,
+    type: Sequelize.UUID,
+    defaultValue: Sequelize.UUIDV4,
+    primaryKey: true
   },
   product_name: {
     type: DataTypes.STRING,
     allowNull: false,
+    unique:true
   },
   image_path: {
     type: DataTypes.STRING,
+    allowNull: true,
+  },
+  clothes_type: {
+    type: DataTypes.ARRAY(DataTypes.STRING),
     allowNull: true,
   },
   price: {
