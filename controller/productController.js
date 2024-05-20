@@ -12,7 +12,7 @@ exports.ProductAdd = async (req, res) => {
       res.status(200).json({ message: "successfully Added"});
     } catch (error) {
       console.error(error);
-      res.status(500).json({ error: "Internal server error"});
+      res.status(500).json({ error: "Internal server error" , msg : error});
     }
   };
 
@@ -53,6 +53,46 @@ exports.ProductAdd = async (req, res) => {
       res.status(200).json({ results: products});
     } catch (error) {
       console.error(error);
-      res.status(500).json({ error: "Internal server error"});
+      res.status(500).json({ error: "Internal server error" , msg : error});
     }
   };
+
+  exports.productUpdate = async (req, res) => {
+    try {
+      const productId = req.params.id; 
+      const updateData = req.body;
+  
+      const updatedProduct = await Product.update(updateData, {
+        where: { id: productId }
+      });
+  
+      if (updatedProduct==0) {
+        return res.status(404).json({ error: "Product not found" });
+      }
+  
+      res.status(200).json({ message: "Product successfully updated", product: updatedProduct });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: "Internal server error", msg: error.message });
+    }
+  };
+  
+
+exports.productDeleted = async (req, res) => {
+  try {
+    const productId = req.params.id; 
+
+    const deletedRows = await Product.destroy({
+      where: { id: productId }
+    });
+
+    if (deletedRows === 0) {
+      return res.status(404).json({ error: "Product not found" });
+    }
+
+    res.status(200).json({ message: "Product successfully deleted" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal server error", msg: error.message });
+  }
+};
