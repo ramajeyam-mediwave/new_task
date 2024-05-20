@@ -6,7 +6,7 @@ const UserDetail = require("../models/UserDetail");
 const UserDetails = require("../models/UserDetail");
 
 const accountSid = "ACf89ac8f3bc208236802d2911212cf284";
-const authToken = "ACf89ac8f3bc208236802d2911212cf284";
+const authToken = "d8e1cc51cb91b45e3ae0905c6f2082af";
 const client = twilio(accountSid, authToken);
 
 exports.signup = async (req, res) => {
@@ -66,7 +66,7 @@ exports.login = async (req, res) => {
       // Check if the user exists in the UserDetails table
       const userDetail = await UserDetails.findOne({ where: { mobileNumber } });
 
-      if (userDetail) {
+      // if (userDetail || " ") {
         await UserDetails.update(
           { active_detail: "active" },
           { where: { mobileNumber } }
@@ -75,11 +75,11 @@ exports.login = async (req, res) => {
         return res.status(200).json({
           message: "OTP verified successfully",
           mobileNumber: mobileNumber,
-          name: userDetail.name, // Optionally return the user's name
+          // name: userDetail.name, 
         });
-      } else {
-        return res.status(404).json({ error: "User not found" });
-      }
+      // } else {
+      //   return res.status(404).json({ error: "User not found" });
+      // }
     } else {
       return res.status(401).json({ error: "Invalid OTP or OTP expired" });
     }
