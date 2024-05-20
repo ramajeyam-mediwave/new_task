@@ -6,7 +6,7 @@ const UserDetail = require("../models/UserDetail");
 const UserDetails = require("../models/UserDetail");
 
 const accountSid = "ACf89ac8f3bc208236802d2911212cf284";
-const authToken = "d8e1cc51cb91b45e3ae0905c6f2082af";
+const authToken = "ACf89ac8f3bc208236802d2911212cf284";
 const client = twilio(accountSid, authToken);
 
 exports.signup = async (req, res) => {
