@@ -1,5 +1,6 @@
 const UserDetails = require("../models/UserDetail");
-const { Sequelize } = require("sequelize");
+
+const { Sequelize, where } = require("sequelize");
 
 
 exports.createUserDetail = async (req, res) => {
@@ -32,6 +33,7 @@ exports.createUserDetail = async (req, res) => {
   
       const customerId = generateCustomerId();
       const userDetail = await UserDetails.create({ name, email ,mobileNumber,customerId});
+      
   
       return res.status(201).json(userDetail);
     } catch (error) {
@@ -62,3 +64,5 @@ exports.createUserDetail = async (req, res) => {
       return res.status(500).json({ error: "Internal server error" });
     }
   };
+
+  
