@@ -13,6 +13,7 @@ const Order = sequelize.define('Order', {
   orderId: {
     type: DataTypes.STRING,
     allowNull: false,
+    unique: true,
   },
   userId: {
     type: DataTypes.UUID,
@@ -34,6 +35,23 @@ const Order = sequelize.define('Order', {
     type: DataTypes.FLOAT,
     allowNull: false,
   },
+  deliveryCharge: {
+    type: DataTypes.FLOAT,
+    allowNull: true,
+  },
+  productPrice:{
+    type: DataTypes.FLOAT,
+    allowNull: false,
+  },
+},
+{
+  tableName: 'Order',
+  indexes: [
+    {
+      fields: ['id'],
+    },
+  ],
+
 });
 
 module.exports = Order;

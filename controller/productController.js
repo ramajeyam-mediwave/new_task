@@ -98,32 +98,3 @@ exports.productDeleted = async (req, res) => {
 };
 
 
-// exports.OrderPlaced = async (req, res) => {
-//   try {
-//     const userId = req.params.id; 
-//     let price;
-//     const orderProducts = req.body.productDetails;
-//     orderProducts.map(item => 
-      
-//       const product = await Product.findOne({
-//         where :{id : item.productId}
-//       })
-      
-
-// Object.keys(product.price).forEach(key => {
-//   const values = product.price[key];
-//   if(key == item.type){
-//     values.map(v => Object.keys(v).forEach(key) => {
-//       if(key == item.washType){
-//         price += v[key];
-//       }
-//     })
-//   }
-// });
-
-//       )
-//   } catch (error) {
-//     console.error(error);
-//     res.status(500).json({ error: "Internal server error", msg: error.message });
-//   }
-// };

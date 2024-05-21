@@ -12,6 +12,7 @@ module.exports = {
       orderId: {
         type: Sequelize.STRING,
         allowNull: false,
+        unique: true,
       },
       userId: {
         type: Sequelize.UUID,
@@ -31,7 +32,15 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false,
       },
+      deliveryCharge: {
+        type: Sequelize.FLOAT,
+        allowNull: true,
+      },
       totalPrice: {
+        type: Sequelize.FLOAT,
+        allowNull: false,
+      },
+      productPrice:{
         type: Sequelize.FLOAT,
         allowNull: false,
       },
