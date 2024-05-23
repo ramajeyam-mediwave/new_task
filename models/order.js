@@ -19,7 +19,15 @@ const Order = sequelize.define('Order', {
     type: DataTypes.UUID,
     allowNull: false,
     references: {
-      model: 'UserDetails', // Assuming the user table is called 'Users'
+      model: 'UserDetails', 
+      key: 'id',
+    },
+  },
+  addressId: {
+    type: DataTypes.UUID,
+    allowNull: false,
+    references: {
+      model: 'Address', 
       key: 'id',
     },
   },
@@ -53,5 +61,18 @@ const Order = sequelize.define('Order', {
   ],
 
 });
+
+Order.associate = (models) => {
+  Order.belongsTo(models.UserDetails, {
+    as: 'user',
+    foreignKey: 'userId',
+    targetKey: 'id'
+  });
+  Order.belongsTo(models.Address, {
+    as: 'address',
+    foreignKey: 'addressId',
+    targetKey:'id'
+  });
+};
 
 module.exports = Order;

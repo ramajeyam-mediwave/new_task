@@ -18,10 +18,18 @@ module.exports = {
         type: Sequelize.UUID,
         allowNull: false,
         references: {
-          model: 'UserDetails', // Assuming the user table is called 'Users'
+          model: 'UserDetails',
           key: 'id',
         },
-        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE',
+      },
+      addressId: {
+        type: Sequelize.UUID,
+        allowNull: false,
+        references: {
+          model: 'Address', 
+          key: 'id',
+        },
         onDelete: 'CASCADE',
       },
       productDetails: {

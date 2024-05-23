@@ -1,6 +1,8 @@
 const { Sequelize, Op } = require("sequelize");
 const Product = require("../models/product");
 const Order = require("../models/order");
+const UserDetails = require("../models/UserDetail");
+const Address = require("../models/address");
 
 
 exports.OrderPlaced = async (req, res) => {
@@ -11,7 +13,6 @@ exports.OrderPlaced = async (req, res) => {
         const orderProducts = req.body.productDetails;
         const listOfProducts = [];
 
-        // Use a for-loop instead of map to handle async/await properly
         for (const item of orderProducts) {
             const product = await Product.findOne({
                 where: { id: item.productId }
@@ -50,11 +51,35 @@ exports.OrderPlaced = async (req, res) => {
             total = price + req.body.deliveryCharge
         }
 
-        const ordeResp = await Order.create({ userId, orderId: orderId, totalPrice: total, productDetails: listOfProducts, status: "pending", deliveryCharge: req.body.deliveryCharge, productPrice: price });
+        const ordeResp = await Order.create({ userId, orderId: orderId, totalPrice: total, productDetails: listOfProducts, status: "pending", deliveryCharge: req.body.deliveryCharge,addressId: req.body.addressId, productPrice: price });
 
         res.status(200).json({ message: "Order placed successfully", ordeResp });
     } catch (error) {
         console.error(error);
         res.status(500).json({ error: "Internal server error", msg: error.message });
     }
+};
+
+exports.getOrdersWithDetails = async (req, res) => {
+  try {
+    const orders = await Order.findAll({
+      include: [
+        {
+          model: UserDetails,
+          as: 'user',
+          attributes: ['id', 'name','mobileNumber','email'] // Include necessary user attributes
+        },
+        {
+          model: Address,
+          as: 'address',
+          attributes: ['id', 'street', 'city', 'state', 'postalCode', 'address_type'] // Include necessary address attributes
+        }
+      ]
+    });
+
+    res.status(200).json({ orders });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal server error', msg: error.message });
+  }
 };

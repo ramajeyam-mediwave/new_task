@@ -39,5 +39,11 @@ const UserDetails = sequelize.define("UserDetails", {
 });
 UserDetails.associate = (models) => {
   UserDetails.hasMany(models.Address, { foreignKey: 'userId' });
+
+  UserDetails.hasMany(models.Order, {
+    as: 'orders',
+    foreignKey: 'userId',
+    sourceKey:'id'
+  });
 };
 module.exports = UserDetails;
