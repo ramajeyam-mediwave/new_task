@@ -66,16 +66,17 @@ exports.login = async (req, res) => {
       // Check if the user exists in the UserDetails table
       const userDetail = await UserDetails.findOne({ where: { mobileNumber } });
 
-      // if (userDetail || " ") {
+      if (userDetail) {
         await UserDetails.update(
           { active_detail: "active" },
           { where: { mobileNumber } }
         );
+      }
         // Return success response along with the token
         return res.status(200).json({
           message: "OTP verified successfully",
           mobileNumber: mobileNumber,
-          // name: userDetail.name, 
+          name: userDetail.name || "", 
         });
       // } else {
       //   return res.status(404).json({ error: "User not found" });

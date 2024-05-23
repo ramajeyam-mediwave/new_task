@@ -4,6 +4,7 @@ const authRoutes = require("./routes/auth");
 const productRoutes = require("./routes/product");
 const userRoutes = require("./routes/user");
 const addressRoute = require("./routes/address")
+const adminRoute =  require("./routes/admin")
 
 
 const app = express();
@@ -15,7 +16,8 @@ app.use(bodyParser.json());
 app.use("/auth", authRoutes);
 app.use("/product", productRoutes);
 app.use('/user', userRoutes);
-app.use('/address', addressRoute)
+app.use('/address', addressRoute);
+app.use('/admin', adminRoute )
 // Start server
 const PORT = process.env.PORT || 4000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

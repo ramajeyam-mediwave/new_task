@@ -27,8 +27,7 @@ const UserDetails = sequelize.define("UserDetails", {
   },
   email: {
     type: DataTypes.STRING,
-    allowNull: false,
-    unique: true,
+    allowNull: true,
   },
  
   active_detail: {
